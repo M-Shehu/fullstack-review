@@ -2,15 +2,58 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/fetcher');
 
 let repoSchema = mongoose.Schema({
-  // TODO: your schema here!
+  repo_user: String,
+  repo_name: String,
+  html_url: String,
+  clone_url: String,
+  forks: Number,
+  watchers: Number
 });
 
 let Repo = mongoose.model('Repo', repoSchema);
 
-let save = (/* TODO */) => {
-  // TODO: Your code here
-  // This function should save a repo or repos to
-  // the MongoDB
+repoSchema.path('repo_name').validate(function(value, done) {
+  this.model('Repo').count({ repo_name: value }, function(err, count) {
+      if (err) {
+          return done(err);
+      }
+      done(!count);
+  });
+}, 'Repo already exists');
+
+
+let save = (githubData, callback) => {
+  githubData.forEach(element => {
+    var repo = new Repo({
+      repo_user: element.owner.login,
+      repo_name: element.full_name,
+      html_url: element.owner.html_url,
+      clone_url: element.clone_url,
+      forks: element.forks_count,
+      watchers: element.watchers
+    });
+    
+    repo.save((err) => {
+      if (err) {
+        callback(err)
+      } else {
+        callback('Done saving ' + element.full_name);
+      }
+    });
+  })
 }
 
-module.exports.save = save;
+let getTop25Forks = (callback) => {
+  Repo.find({}, (err, docs) => {
+    if (err) {
+      callback(err)
+    } else {
+      callback(null, docs)
+    }
+  }).sort({forks: -1}).limit(25);
+}
+
+module.exports = {
+  save: save,
+  getTop25Forks
+}
