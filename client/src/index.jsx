@@ -40,7 +40,9 @@ class App extends React.Component {
       dataType: 'json',
       data: JSON.stringify({data: term}),
       success: (response) => {
-        
+        this.setState({
+          repos: response
+        })
       },
       error: () => {}
     })

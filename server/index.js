@@ -17,15 +17,21 @@ app.post('/repos', function (req, res) {
   github.getReposByUsername(req.body.data, (info) => {
     db.save(info, (message) => {
       console.log(message);
+      db.getTop25Forks((err, docs) => {
+        if (err) {
+          console.log(err.message);
+        } else {
+          res.end(JSON.stringify(docs));
+        }
+      })
     })
-    res.end('Done');
   }) 
 });
 
 app.get('/repos', function (req, res) {
   db.getTop25Forks((err, docs) => {
     if (err) {
-      console.log(err);
+      console.log(err.message);
     } else {
       res.send(docs);
     }

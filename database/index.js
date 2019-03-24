@@ -15,7 +15,7 @@ let Repo = mongoose.model('Repo', repoSchema);
 repoSchema.path('repo_name').validate(function(value, done) {
   this.model('Repo').count({ repo_name: value }, function(err, count) {
       if (err) {
-          return done(err);
+          return done(err.message);
       }
       done(!count);
   });
@@ -27,7 +27,7 @@ let save = (githubData, callback) => {
     var repo = new Repo({
       repo_user: element.owner.login,
       repo_name: element.full_name,
-      html_url: element.owner.html_url,
+      html_url: element.html_url,
       clone_url: element.clone_url,
       forks: element.forks_count,
       watchers: element.watchers
