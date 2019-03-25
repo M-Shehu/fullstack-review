@@ -23,7 +23,7 @@ class Search extends React.Component {
       <div id="section-two">
         <div id="stats-container" className="effect1">
           <div id="users" className="items">
-            <h4 className="stat-number"> 2 </h4>
+            <h4 className="stat-number"> {[...new Set(this.props.repos.map(element => element.repo_user))].length} </h4>
             <h4 className="stat-name"> Users </h4>
           </div>
           <div id="repos" className="items">
