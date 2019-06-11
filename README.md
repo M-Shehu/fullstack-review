@@ -4,7 +4,7 @@
 This is a full stack app to fetch GitHub repositories and store them in a SQL database. The app was built using React and the GitHub API was used for this project.
 
 ## Usage
-Run the following command to run the code in development mode. Don't worry, it runs all necessary scripts in this one command.
+Run the following command to run the code in development mode. It runs all necessary scripts in this one command.
 
 ```sh
 npm run start:dev
