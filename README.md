@@ -17,7 +17,6 @@ npm start
 
 ## Tech Stack
 
-Built with love using Node, Express, React, React Router, and MongoDB.
 FrontEnd: React
 BackEnd: Node & Express
 Deployment: Heroku.
@@ -27,6 +26,6 @@ APIs: GitHub.
 
 
 
-## 📄 License
+## License
 
 This app is MIT licensed.
