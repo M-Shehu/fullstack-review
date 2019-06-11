@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const github = require('../helpers/github');
-const db = require('../database/index')
+const db = require('../database/index-sql')
 let app = express();
 
 let port = process.env.PORT;
@@ -29,10 +29,12 @@ app.post('/repos', function (req, res) {
 });
 
 app.get('/repos', function (req, res) {
+  console.log('Asking for data...')
   db.getTop25Forks((err, docs) => {
     if (err) {
       console.log(err.message);
     } else {
+      // console.log(docs);
       res.send(docs);
     }
   })
